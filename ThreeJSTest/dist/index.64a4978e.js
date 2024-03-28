@@ -592,12 +592,22 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 // Create a scene and camera
 const scene = new _three.Scene();
-const camera = new _three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new _three.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
 const orbit = new (0, _orbitControlsJs.OrbitControls)(camera, renderer.domElement);
-camera.position.set(1, 1, 5);
+camera.position.set(-10, 30, 30);
 orbit.update();
 const axesHelper = new _three.AxesHelper(3);
 scene.add(axesHelper);
+const planeGeo = new _three.PlaneGeometry(30, 30);
+const planeMat = new _three.MeshBasicMaterial({
+    color: 0x008000,
+    side: _three.DoubleSide
+});
+const plane = new _three.Mesh(planeGeo, planeMat);
+scene.add(plane);
+plane.rotation.x = -0.5 * Math.PI;
+const gridHelper = new _three.GridHelper(30, 60);
+scene.add(gridHelper);
 const boxGeo = new _three.BoxGeometry();
 const boxMat = new _three.MeshBasicMaterial({
     color: 0x00ff00
@@ -605,6 +615,18 @@ const boxMat = new _three.MeshBasicMaterial({
 const box = new _three.Mesh(boxGeo, boxMat);
 scene.add(box);
 box.position.set(0, 0, 0);
+const sphereGeo = new _three.SphereGeometry(1, 50, 50);
+const sphereMat = new _three.MeshLambertMaterial({
+    color: 0x00ff00,
+    wireframe: false
+});
+const sphere = new _three.Mesh(sphereGeo, sphereMat);
+scene.add(sphere);
+sphere.position.set(2, 2, 2);
+// Create a directional light
+const directionalLight = new _three.DirectionalLight(0xffffff, 2);
+directionalLight.position.set(1, 1, 1).normalize(); // Set position
+scene.add(directionalLight);
 function animate() {
     box.rotation.x += .01;
     renderer.render(scene, camera);
