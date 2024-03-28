@@ -49,12 +49,37 @@ scene.add(directionalLight);
 
 const gui =  new dat.GUI();
 
+const options = {
+    boxColor : '#ffea00',
+    sphereColor : '#ffea00',
+    wireframe : false,
+    speed : 0.01
+};
 
-
-function animate()
+gui.addColor(options,'sphereColor').onChange(function (e)
 {
-    box.rotation.x +=.01;
+    sphere.material.color.set(e);
+});
 
+gui.add(options,'wireframe').onChange(function (e)
+{
+    sphere.material.wireframe = e;
+});
+
+gui.addColor(options,'boxColor').onChange(function (e)
+{
+    box.material.color.set(e);
+});
+gui.add(options,'speed',0,.1);
+
+let step =0;
+
+
+function animate(time)
+{
+    step+=options.speed;
+    box.rotation.x = time / 1000;
+    sphere.position.y = 10 * Math.abs(Math.sin(step));
     renderer.render(scene,camera);
 }
 
