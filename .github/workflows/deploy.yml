@@ -16,5 +16,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
           branch: gh-pages
-          folder: ThreeJSTest/src  # Specify the directory to deploy (change this to 'src')
+          folder: src  # Specify the directory to deploy (change this to 'src')
           clean: true
